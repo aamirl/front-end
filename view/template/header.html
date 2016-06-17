@@ -1,0 +1,227 @@
+<!-- begin #header -->
+<div ng-controller="header">
+    <div id="header" class="header navbar navbar-default navbar-fixed-top col-xs-12" style="box-shadow: 1px 4px 10px grey; padding: 0">
+        <div style="max-width: 1440px; margin-left: auto; margin-right: auto;">
+        <div class="dropdown navbar-user visible-xs visible-sm mobile-bar" style="margin-left: 25px;margin-top: 16px ;float:left">
+                <a href="javascript:;" class="dropdown-toggle header-details" data-toggle="dropdown">
+                    <span><i class="fa fa-bars" style="font-size: 31px"></i></span>
+                </a>
+                <ul class="dropdown-menu pull-right">
+                    <li ng-if="loggedIn">
+                        <a href="javascript:;" class="dropdown-toggle header-details" style="text-align: center">
+                            <img check-image ng-src="{{avatar}}" style="width: 65px; object-fit: cover" alt="" />
+                        </a>
+                    </li>
+                    <li ng-if="loggedIn" class="divider"></li>
+                    <li ng-if="loggedIn">
+                        <a href="http://dashboard.sellyx.com/#/app/manager/account" class="dropdown-toggle header-details">
+                            <span class=""> My Account</span>
+                        </a>
+                    </li>
+                    <li ng-if="loggedIn">
+                        <a ng-href="http://www.sellyx.com/#/user?u={{userInfo.id}}&t=t1">
+                            <span class=""> View Profile</span>
+                        </a>
+                    </li>
+                    <li ng-if="loggedIn">
+                        <a href="http://dashboard.sellyx.com/#/app/email/inbox" class="dropdown-toggle header-details">
+                            <span class=""> Inbox</span>
+                        </a>
+                    </li>
+                     <li ng-if="loggedIn">
+                        <a href="http://dashboard.sellyx.com/#/app/manager/local/listings" class="dropdown-toggle header-details">
+                            <span class=""> Listings</span>
+                        </a>
+                    </li>
+                    <li ng-if="loggedIn">
+                        <a href="https://accounts.sellyx.com/financials" class="dropdown-toggle header-details">
+                            <span class=""> SellyxPay</span>
+                        </a>
+                    </li>
+                    <li ng-if="!loggedIn">
+                        <a href="javascript:;" ng-click="loginRedirect()" class="dropdown-toggle header-details">
+                            <span class=""><i class="fa fa-sign-in"></i> Login</span>
+                        </a>
+                    </li>
+                    <li ng-if="!loggedIn">
+                        <a href="javascript:;" ng-click="registerRedirect()" class="dropdown-toggle header-details">
+                            <span class=""><i class="fa fa-edit"></i> Sign Up</span>
+                        </a>
+                    </li>
+                    <li ng-if="!loggedIn" class="divider"></li>
+                    <li ng-if="!loggedIn">
+                        <a href="/#/about" class="dropdown-toggle header-details">
+                            <span class=""> About Us</span>
+                        </a>
+                    </li>
+                    <li ng-if="!loggedIn">
+                        <a href="/#/how-it-works" class="dropdown-toggle header-details">
+                            <span class=""> How It Works</span>
+                        </a>
+                    </li>
+                    <li ng-if="!loggedIn">
+                        <a href="/#/contact" class="dropdown-toggle header-details">
+                            <span class=""> Contact</span>
+                        </a>
+                    </li>
+
+<!--                     <li>
+                        <a href="javascript:;" ng-click="openCurrency('currency')" class="dropdown-toggle header-details">
+                            <span class=""><i class="fa fa-bank"></i> Currency</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;" ng-click="openCurrency()" class="dropdown-toggle header-details">
+                            <span class=""><i class="fa fa-cog"></i> US System</span>
+                        </a>
+                    </li> -->
+                    <li ng-if="loggedIn">
+                        <a href="javascript:;" ng-click="logout()" class="dropdown-toggle header-details">
+                            <span class=""><i class="fa fa-sign-out"></i> Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+<!--         <div class="navbar-header front-end-header visible-xs visible-sm pull-right" style="border-bottom: none; padding-bottom: 5px"> -->
+            <a ui-sref="index" ng-click="goHome()" class="navbar-brand visible-xs visible-sm pull-right" style="padding-left:0"><img src="assets/img/logo.png" class="logo" alt="" /> </a>
+        <!-- </div> -->
+        <i ng-click="showMobileSearch()" class="fa fa-search pull-right fa-2x visible-xs visible-sm clickable" style="margin-top:16px;"></i>
+        <!-- begin container-fluid -->
+            <!-- begin mobile sidebar expand / collapse button -->
+            <div class="navbar-header front-end-header hidden-xs hidden-sm" style="border-bottom: none; padding-bottom: 5px">
+                <a ui-sref="index" ng-click="goHome()" class="navbar-brand hidden-xs hidden-sm"><img src="assets/img/logo.png" class="logo" alt="" /> </a>
+            </div>
+            <div class="col-md-7 hidden-xs hidden-sm" style="padding-left: 0; margin-left: 35px" >
+                <div class="col-xs-6 input-group" style="position: relative; float: left; top: 11px">
+                    <div class="btn-group input-group-addon" style="padding:0; border: none" uib-dropdown>
+                      <button id="single-button" type="button" class="btn" style="border-radius: 4px 0 0 4px !important; background: #DDD" uib-dropdown-toggle>
+                        <b ng-cloak>{{searchDropdown}} <i class="fa fa-caret-down"></i></b>
+                      </button>
+                      <ul uib-dropdown-menu role="menu" aria-labelledby="single-button" class="search-dropdown" style="overflow: hidden; height: 250px; overflow-y: scroll">
+                        <li ng-click="searchFilter('','',$event)" role="menuitem"><a href="">All Types</a></li>
+                        <li ng-click="searchFilter('type','1', $event)" role="menuitem"><a href="">For Sale</a></li>
+                        <li ng-click="searchFilter('type','2', $event)" role="menuitem"><a href="">For Borrow</a></li>
+                        <li ng-click="searchFilter('type','3', $event)" role="menuitem"><a href="">Service</a></li>
+                        <li ng-click="searchFilter('type','4', $event)" role="menuitem"><a href="">Housing</a></li>
+<!--                         <li ng-click="searchFilter('type','6', $event)" role="menuitem"><a href="">Employment/Careers</a></li> -->
+                        <li role="menuitem"><a class="category-hover" href="">Categories</a></li>
+                        <li ng-repeat="(k,v) in categories" ng-click="searchFilter('categories',$index+1, $event)" class="search-category" role="menuitem"><a href="" ng-bind="v"></a></li>
+
+                      </ul>
+                    </div>
+                    <input style="font-size: 16px; height: 35px" ng-model="search.query" class="form-control query-input" type="text" Placeholder="Search..." ng-keyup="$event.keyCode == 13 ? load('go') : null"/>
+                </div>
+                <div class="col-xs-4 ui-select-location" style="position: relative; padding-right:0; left: 14px">
+                <i class="fa fa-location-arrow" style="position: absolute; top: 22px; left: -5px; color: rgb(151, 154, 165); z-index: 2"></i>
+                <ui-select ng-model="model.addresses" theme="bootstrap">
+                    <ui-select-match allow-clear="true" placeholder="{{user_locate}}">{{$select.selected.formatted_address}}</ui-select-match>
+                    <ui-select-choices repeat="address in addresses"
+                        refresh="refreshAddresses($select.search)"
+                        refresh-delay="0"><i style="color: black; position: relative; right: 11px" class="fa fa-location-arrow"></i> {{address.formatted_address}}
+                    </ui-select-choices>
+                </ui-select>
+                </div>
+                <div class="hidden-xs hidden-sm col-xs-2" style="display: inline-block; margin-top: 11px; padding-left:14px">
+                    <button type="button" class="btn" ng-click="load('go')" style="height: 35px; font-size: 16px; border-radius: 0px 4px 4px 0px !important; border-left:1px solid #DDD; background:#DDD"><i class="fa fa-search text-primary"></i></button>
+                </div>
+            </div>
+            <ul class="nav navbar-nav navbar-right hidden-xs hidden-sm" style="margin-top: 9px; padding-right: 10px">
+<!--             <li ng-click="showSearch()"><a href="javascript:;" class="header-details hidden-xs">
+                    <i style="padding-right: 3px" class="fa fa-search"></i> Search
+                </a></li> -->
+<!--             <li ng-click="showMobileSearch()"><a href="javascript:;" class="header-details visible-xs">
+                    <i class="fa fa-search"></i>
+                </a></li> -->
+            <li class="dropdown navbar-user hidden-xs hidden-sm">
+                <a href="javascript:;" class="dropdown-toggle header-details" data-toggle="dropdown">
+                    <span>About</span> <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu pull-right">
+                    <li><a ui-sref="app.howItWorks">How It Works</a></li>
+                    <li><a ui-sref="app.about">About Us</a></li>
+                    <li><a ui-sref="app.contact">Contact</a></li>
+                </ul>
+            </li>
+           <!--  <li class="dropdown navbar-user">
+                <a href="javascript:;" class="dropdown-toggle header-details" data-toggle="dropdown">
+                    <span><i class="fa fa-cog"></i> {{chosenStandard}}</span> <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu pull-right">
+                    <li ng-click="changeStandard('US')"><a href="javascript:;">US System</a></li>
+                    <li ng-click="changeStandard('MT')"><a href="javascript:;">Metric System</a></li>
+                </ul>
+            </li>
+            <li class="dropdown navbar-user">
+                <a href="javascript:;" class="dropdown-toggle header-details" data-toggle="dropdown">
+                    <span><i class="fa fa-bank"></i> {{chosenCurrency}}</span> <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu pull-right" style="max-height:300px; overflow: hidden; overflow-y: scroll">
+                    <li class="clickable" ng-repeat="currency in currencies" ng-click="changeCurrency(currency.code)"><a>{{currency.code}}</a></li>
+                </ul>
+            </li> -->
+            <li ng-if="loggedIn" class="dropdown navbar-user">
+                <a href="javascript:;" class="dropdown-toggle header-details" data-toggle="dropdown">
+                    <span class="image"><img check-image ng-src="{{avatar}}" style="width: 40px; height: 40px; object-fit: cover" alt="" /></span>
+                    <span class="hidden-xs" ng-bind="userName"></span> <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu pull-right">
+                    <li><a href="http://dashboard.sellyx.com/#/app/manager/account">My Account</a></li>
+                    <li><a ng-href="http://www.sellyx.com/#/user?u={{userInfo.id}}&t=t1">View Profile</a></li>
+                    <li><a href="http://dashboard.sellyx.com/#/app/email/inbox">Inbox</a></li>
+                    <li><a href="http://dashboard.sellyx.com/#/app/manager/local/listings">Listings</a></li>
+                    <li><a href="https://accounts.sellyx.com/financials">SellyxPay</a></li>
+                    <li class="divider"></li>
+                    <li><a href="javascript:;" ng-click="logout()">Log Out</a></li>
+                </ul>
+            </li>
+            <li ng-if="!loggedIn" class="hidden-xs"><a href="javascript:;" ng-click="loginRedirect()" class="dropdown-toggle header-details">
+                    <span class="login-buttons" style="display: none">Login</span>
+                </a></li>
+            <li ng-if="!loggedIn" class="hidden-xs" style="margin-right: 10px"><a href="javascript:;" ng-click="registerRedirect()" class="dropdown-toggle header-details">
+                    <span class="login-buttons" style="display:none">Sign Up</span>
+                </a></li>
+        </ul>
+            <!-- <div class="col-sm-12 hidden-xs searchbar" style="display:none; padding-left: 0" >
+                <div class="col-xs-5" style="position: relative">
+                    <i class="fa fa-search" style="position: absolute; top: 26px; left: 21px; color: rgb(151, 154, 165)"></i>
+                    <input style="margin-top: 11px; margin-bottom: 11px; padding-left: 25px; font-size: 16px" placeholder="Search..." ng-model="search.query" class="form-control input-lg query-input" type="text" ng-keyup="$event.keyCode == 13 ? load('go') : null"/>
+                </div>
+                <div class="col-xs-4" style="position: relative">
+                <i class="fa fa-location-arrow" style="position: absolute; top: 26px; left: -5px; color: rgb(151, 154, 165); z-index: 2"></i>
+                <ui-select ng-model="model.addresses" theme="bootstrap">
+                    <ui-select-match allow-clear="true" placeholder="{{user_locate}}">{{$select.selected.formatted_address}}</ui-select-match>
+                    <ui-select-choices repeat="address in addresses"
+                        refresh="refreshAddresses($select.search)"
+                        refresh-delay="0"><i style="color: black; position: relative; right: 11px" class="fa fa-location-arrow"></i> {{address.formatted_address}}
+                    </ui-select-choices>
+                </ui-select>
+                </div>
+                <div class="hidden-xs col-xs-3" style="display: inline-block; margin-top: 11px;">
+                    <button type="button" class="btn btn-success" ng-click="load('go')" style="height: 46px; font-size: 15px">GO!</button>
+                </div>
+            </div>
+        </div> -->
+        </div>
+            <div class="well mobile-searchbar hidden-md hidden-lg" style="height: 180px; width: 100%; display: none; position:relative; top: 9px; background: #1e77c5; border-radius: 0px; border-top: 1px solid white">
+                <div class="col-xs-12" style="position: relative">
+                    <i class="fa fa-search mobile-search-icon" style="position: absolute; top: 9px; left: 21px; color: rgb(151, 154, 165)"></i>
+                    <input placeholder="Search..." style="padding-left: 25px" ng-model="search.query" class="form-control query-input" type="text"/>
+                </div>
+                <div class="col-xs-12" style="position: relative">
+                    <i class="fa fa-location-arrow" style="position: absolute; top: 20px; left: 25px; color: rgb(151, 154, 165); z-index: 2"></i>
+                    <ui-select ng-model="model.addresses" theme="bootstrap" style="width: 100%; margin-left: 0px">
+                        <ui-select-match allow-clear="true" placeholder="{{user_locate}}">{{$select.selected.formatted_address}}</ui-select-match>
+                        <ui-select-choices repeat="address in addresses"
+                            refresh="refreshAddresses($select.search)"
+                            refresh-delay="0"><i style="color: black; position: relative; right: 11px" class="fa fa-location-arrow"></i> {{address.formatted_address}}
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div style="width: 100%; text-align: center; margin-top: 10px; margin-bottom: 25px" class="col-xs-12">
+                    <button type="button" class="btn btn-success" ng-click="load('go')" style="height: 35px; font-size: 15px">GO!</button>
+                </div>
+    </div>
+</div>
+<div ui-view="filterModal"></div>
+<div ui-view="currencyModal"></div>
+</div>

@@ -1,0 +1,150 @@
+<div style="padding: 10px; min-height: 100vh">
+<div class="listing-loading loading-style" style="display:inline-block; font-size: 30px"><i class="fa fa-spinner fa-pulse"></i> Loading</div>
+<div class="show-listing" style="display:none">
+<div class="col-xs-12 col-sm-12 col-md-5 mobile-padding" style="margin-top: 25px">
+	<div class="col-xs-12" style="text-align: center; padding: 0">
+	<div class="panel panel-default">
+		<div class="well listing-header" ng-bind="userDetails.name.display? userDetails.name.display: userDetails.name"></div>
+			<div class="panel-body">
+				<div>
+					<div style="margin-bottom: 15px"><img style="width: 70%" check-image ng-src="https://sellyx-ecom.s3-us-west-1.amazonaws.com/{{userDetails.id}}.jpg" alt="" /></div>
+					<h3 style="margin-bottom: 0"> <i class="fa fa-users text-primary"></i> {{userDetails.follows? userDetails.follows.length : 0}} Followers</h3>
+					<h3 style="margin-top: 10px"><i class="fa fa-comments text-primary"></i> {{userDetails.reviews? userDetails.reviews.counter : 0}} Reviews</h3>
+					<uib-rating ng-if="userDetails.reviews" style="outline: 0" class="star-rating" ng-model="rating" max="5" data-readonly="true"></uib-rating>
+				</div>
+			<div class="col-xs-12" style="text-align:center; margin-top: 30px; margin-bottom: 30px">
+				<button style="font-size: 25px; margin-bottom: 15px; width: 100%" type="button" ng-click="openMessages();" class="btn btn-primary"><i class="fa fa-envelope-o"></i> Send Message</button>
+				<button ng-if="!following" style="font-size: 25px; width: 100%; background: white; border: 1px solid #1e77c5;" type="button" class="btn text-primary follow-button" ng-click="followEntity($event);"><i class="fa fa-plus"></i> Follow</button>
+				<button ng-if="following" style="font-size: 25px; width: 100%; color:white;" type="button" class="btn bg-success" ng-click="followEntity($event);"><i class="fa fa-check"></i> Following</button>
+			</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-12" style="padding: 0">
+		<div class="panel panel-default">
+			<div class="well listing-header" style="text-align: center">User Info</div>
+			<div class="panel-body">
+				<div class="col-xs-12" ng-if="userDetails.tagline"><p style="text-align: center; margin-bottom: 35px"><i ng-bind="userDetails.tagline"></i></p></div>
+				<div class="col-xs-12" style="padding-left:0">
+					<label class="col-xs-1"><i class="fa fa-info-circle"></i></label><span class="col-xs-10">{{userDetails.description}}</span>
+				</div>
+				<div class="col-xs-12" ng-if="userDetails.country" style="padding-left: 0">
+				<label class="col-xs-1"><i class="fa fa-map-pin"></i></label><span class="col-xs-10">{{userDetails.country.converted}}</span>
+				</div>
+				<div class="col-xs-12" ng-if="userDetails.website" style="padding-left: 0;">
+					<label class="col-sm-3 col-xs-12">Website</label>
+					<a class="col-sm-9 col-xs-12" href="{{'http://'+userDetails.website}}" target="_blank">{{userDetails.website}}</a></div>
+				<div ng-if="userDetails.social">
+					<div class="col-xs-12 social-icons" style="padding-left:0; text-align: center; margin-top: 40px">
+<!-- 						<label class="col-sm-3 col-xs-12">{{k}}</label>
+						<span class="col-sm-9 col-xs-12"><a href="{{v.id}}" target="_blank">{{v.id}}</a></span> -->
+						<a ng-repeat="(k,v) in userDetails.social" target="_blank" ng-hide="!v.id || v.id == '' " href="http://{{v.id}}">
+							<i ng-if="k == 'facebook'" class="fa fa-facebook-square fa-2x"></i>
+							<i ng-if="k == 'twitter'" class="fa fa-twitter-square fa-2x"></i>
+							<i ng-if="k == 'pinterest'" class="fa fa-pinterest-square fa-2x"></i>
+							<i ng-if="k == 'instagram'" class="fa fa-instagram fa-2x"></i>
+							<i ng-if="k == 'google'" class="fa fa-google-plus-square fa-2x"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-12" style="padding: 0">
+		<div class="panel panel-default">
+			<div class="well listing-header" style="text-align: center">Followers</div>
+			<div class="panel-body">
+				<a ng-if="userDetails.follows.length > 0" ng-repeat="followers in userDetails.follows" href="" style=""><img ng-click="scrollTop(followers.id, followers.type)"style="background: #DDD; border: 1px solid #007ee5; margin: 5px" check-image ng-src="https://sellyx-ecom.s3-us-west-1.amazonaws.com/{{followers.id}}.jpg?AWSAccessKeyId=AKIAIZYV5W77V235JRWQ" alt="" title="{{followers.name}}" class="user-home-image clickable" /></a>
+				<p style="text-align: center" ng-if="userDetails.follows.length < 1">No followers</p>
+			</div>
+		</div>
+	</div>
+<!-- 	<div class="col-xs-12" style="margin-top: 20px;" ng-if="!userDetails.country">
+		<div class="panel panel-default">
+		<div class="well listing-header">Location</div>
+			<div class="panel-body">
+		    	<div id="map" style="width: 100%; height: 400px"></div>
+			</div>
+		</div>
+	</div> -->
+</div>
+<div class="col-xs-12 col-sm-12 col-md-7 mobile-padding" style="margin-top: 25px">
+	<uib-tabset justified="true" class="user-items">
+		<uib-tab active="tab.active" select="reload()" style="padding: 0px !important">
+			<uib-tab-heading>
+				{{userDetails.name.display? userDetails.name.display + "'s Items": userDetails.name + "'s Items"}}
+			</uib-tab-heading>
+			<div ng-if="noListings" style="text-align: center; font-size: 20px; margin-top: 75px;">This user currently has no listings.</div>
+<!-- 		    <ul angular-grid="userItems" ag-id="gallery" class="dynamic-grid" ag-grid-width="gridWidth" ag-gutter-size="10" style="margin-top: 15px"> -->
+                <div data-ng-repeat="item in userItems" class="grids col-xs-6 col-sm-4" style="padding: 6px">
+                    <div style="border: 1px solid #DDD; border-bottom: none; border-radius: 4px 4px 0 0">
+                        <div style="position: relative;">
+                            <div class="box">
+                                <div class="product-detail-image">
+                                    <img check-product-image class="clickable" ng-click="viewProduct(item.id)" ng-src="https://sellyx-ecom.s3-us-west-1.amazonaws.com/m_{{item.images[0] || '' }}?AWSAccessKeyId=AKIAIZYV5W77V235JRWQ" alt="" style="width:100%;"/>
+                                </div>
+                            </div>
+                            <img ng-click="viewUser(item.entity.id, item.entity.type)" style="background: #DDD; position: relative; left: 7px; bottom: 20px; border: 1px solid #1e77c5" check-image ng-src="https://sellyx-ecom.s3-us-west-1.amazonaws.com/{{item.entity.id}}.jpg?AWSAccessKeyId=AKIAIZYV5W77V235JRWQ" alt="" class="user-home-image clickable" />
+                            <p class="text-primary clickable listing-name" ng-click="viewUser(item.entity.id, item.entity.type)" style="">{{item.entity.name}}</p>
+                        </div>
+                        <div class="caption" style="padding: 10px">
+                            <h4 class="clickable listing-title" ng-click="viewProduct(item.id)" style="overflow: hidden; text-overflow: ellipsis;white-space: nowrap; margin-top: -15px"><b>{{item.title}}</b></h4>
+                            <h5 class="text-primary listing-price" style="overflow: hidden; text-overflow: ellipsis;white-space: nowrap">{{currencySymbol}}{{item.price ? item.price.converted.substr(item.price.converted.indexOf(' ')+1) : 0}}</h4>
+<!--                             <h6><i class="fa fa-heart" style="color: red"></i> {{item.favorites.length? item.favorites.length : 0}} </h6> -->
+                            <h6 class="listing-date" style="color: #8B8B8B">{{item.setup.added.converted.timeago}}</h6>
+                        </div>
+<!--                         <div style="padding: 10px">
+                            <img check-image ng-src="https://sellyx-ecom.s3-us-west-1.amazonaws.com/{{item.entity.id}}.jpg?AWSAccessKeyId=AKIAIZYV5W77V235JRWQ" alt="" class="user-home-image" />
+                            <span ng-click="viewUser(item.entity.id)" class="clickable text-primary" style="padding-left: 8px; font-size: 12px">{{item.entity.name}}<span>
+                        </div> -->
+                    </div>
+                    <div style="border: 1px solid #DDD; padding: 5px; background: whitesmoke; border-radius: 0 0 4px 4px" class="col-xs-12">
+                        <div class="col-xs-9" style="padding-left: 0; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; font-size: 10px"><i class="fa fa-location-arrow text-primary"></i> {{item.distance.converted}}<span class="hidden-xs"> - {{item.location.city? item.location.city : item.location.formatted}}</span></div><div ng-if="item.favorites.length > 0" class="pull-right" style="padding-right: 0; text-align: right; font-size: 10px"><i class="fa fa-heart" style="color: red"></i> {{item.favorites.length? item.favorites.length : 0}} </div>
+                    </div>
+                </div>
+            <!-- </ul> -->
+		    <div ng-if="userLoad" style="text-align: center; margin-bottom: 30px" class="col-xs-12">
+				 <button style="height: 50px; font-size: 20px; font-weight: bold" type="submit" ng-click="loadUserItems('load')" class="btn btn-primary">Load more <i class="fa fa-refresh"></i></button>
+		    </div>
+		</uib-tab>
+		<uib-tab ng-if="userDetails.reviews.counter > 0" select="retrieveReviews()">
+			<uib-tab-heading>
+				{{userDetails.name.display? userDetails.name.display + "'s Reviews": userDetails.name + "'s Reviews"}}
+			</uib-tab-heading>
+			<table id="reviewTable" datatable="" dt-options="dtOptions" dt-columns="dtColumns" class="dtable" style="text-align: center"></table>
+		</uib-tab>
+    </uib-tabset>
+</div>
+</div>
+<div class="no-user cannot-find" style="display:none">
+<h4 style="border-bottom: 1px solid black">404 Not Found</h4>
+<h2>Unfortunately this page can not be displayed...</h2>
+<h5>The page you requested was not found.</h5>
+<ul>
+	<li>If you typed the URL directly, please make sure the spelling is correct.</li>
+	<li>If you clicked on a link to get here, the link may be outdated.</li>
+	<li>The user you were looking for may have been removed.</li>
+</ul>
+<h3>The options below should help you find the user/page you are looking for:</h3>
+<ul>
+	<li>Refresh this page by clicking refresh on your browser.</li>
+	<li>Click on the 'Sellyx' logo in the top bar to navigate back to the homepage.</li>
+	<li>If you continue to see this error page, <a class="clickable" href="mailto:contact@sellyx.com">email</a> our support team for help.</li>
+</ul>
+</div>
+</div>
+<div class="col-xs-12 show-footer" style="padding: 0; display:none">
+    <div id="footer">
+        <ul class="footer-nav" style="list-style: none; padding-top: 10px">
+            <li><a ui-sref="app.howItWorks">How It Works</a></li>
+            <li><a ui-sref="app.about">About Us</a></li>
+            <li><a ui-sref="app.contact">Contact</a></li>
+            <li><a ui-sref="app.privacy">Privacy Policy</a></li>
+            <li><a ui-sref="app.terms">Terms and Conditions</a></li>
+        </ul>
+        <span class="center" style="position:absolute; bottom: 10px">&copy; 2016 <b>Sellyx, Inc.</b> All Rights Reserved</span>
+    </div>
+</div>
+
+<div ui-view="messageModal"></div>
+<div ui-view="loginModal"></div>

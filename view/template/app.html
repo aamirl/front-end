@@ -1,0 +1,21 @@
+<!-- begin #header -->
+<div ng-include src="'template/header.html'"></div>
+<!-- end #header -->
+
+<div ng-if="setting.layout.pageTopMenu">
+    <!-- begin #sidebar -->
+    <div ng-include src="'template/top-menu.html'"></div>
+    <!-- end #sidebar -->
+</div>
+
+<!-- begin #content -->
+<div id="content" class="content" ng-class="{ 'p-0': setting.layout.pageContentWithoutPadding, 'height-full': setting.layout.pageContentFullHeight }" style="padding:0">
+	<div ui-view="homePage" ng-show="loaded"></div>
+    <div ui-view ng-show="loaded"></div>
+</div>
+<!-- end #content -->
+
+
+<!-- begin #theme-panel -->
+<!-- <div ng-include src="'template/theme-panel.html'"></div>
+ --><!-- end #theme-panel -->

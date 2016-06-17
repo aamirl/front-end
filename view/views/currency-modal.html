@@ -1,0 +1,23 @@
+<div class="modal fade" id="currency_modal">
+     <div class="vertical-alignment-helper">
+        <div class="modal-dialog vertical-align-center">
+                <div class="modal-content">
+                    <div class="modal-body form-horizontal" style="text-align: center">
+                       <button style="font-size: 40px;" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <div ng-if="showCurrency">
+                           <h3 style="margin-top: 40px;padding-bottom: 10px; border-bottom:1px solid #DDD">Select Currency</h3>
+                           <div style="height:300px; overflow:scroll">
+                                <p style="margin-bottom: 15px; font-size: 15px" class="clickable" ng-repeat="currency in currencies" ng-click="changeCurrency(currency.code)">{{currency.code}}</p>
+                           </div>
+                        </div>
+                        <div ng-if="!showCurrency">
+                           <h3 style="margin-top: 40px;padding-bottom: 10px; border-bottom:1px solid #DDD">Select Measurement</h3>
+                           <div style="font-size: 20px" ng-click="changeStandard('US')">US System</div>
+                           <div style="font-size: 20px; margin-bottom: 25px" ng-click="changeStandard('MT')">Metric System</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

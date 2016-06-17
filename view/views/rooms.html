@@ -1,0 +1,36 @@
+<div style="min-height: 100vh; padding: 15px">
+<div class="panel p-20 col-md-9 m-t-30" style="border: 1px solid #DDD">
+    <h5 class="m-t-0"></h5>
+    <div id="map" class="height-md" style="transform: translateZ(0px); background-color: rgb(229, 227, 223);"></div>
+</div>
+<div class="col-md-3" style="margin-bottom:40px;">
+     <div class="widget widget-chat m-t-30" style="border:1px solid #DDD;min-height:100vh; max-height: 800px; overflow-y: auto; overflow-x: hidden">
+        <div class="widget-header ">
+            <h4 class="text-danger">Available Products</h4>
+        </div>
+        <h5 ng-if="rooms.length==0" class="text-primary" style="padding-left: 20px">No product demos are live at the moment!</h5>
+        <div class="media clickable" ng-repeat="room in rooms" id="li{{room.id}}" ng-if="!room.lock" style="border: 1px solid #DDD; border-radius: 4px; padding: 10px" ng-click="viewRoom(room.room_key)">
+          <div class="media-left">
+              <img class="media-object" style="width: 75px" ng-src="https://sellyx-ecom.s3-us-west-1.amazonaws.com/s_{{room.product_image}}" alt="" ng-cloak>
+          </div>
+          <div class="media-body">
+            <h4 class="media-heading">{{room.product_name}}</h4>
+            ${{room.product_price}}
+          </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="col-xs-12 show-footer" style="padding: 0;">
+    <div id="footer">
+        <ul class="footer-nav" style="list-style: none; padding-top: 10px">
+            <li><a ui-sref="app.howItWorks">How It Works</a></li>
+            <li><a ui-sref="app.about">About Us</a></li>
+            <li><a ui-sref="app.contact">Contact</a></li>
+            <li><a ui-sref="app.privacy">Privacy Policy</a></li>
+            <li><a ui-sref="app.terms">Terms and Conditions</a></li>
+        </ul>
+        <span class="center" style="position:absolute; bottom: 10px">&copy; 2016 <b>Sellyx, Inc.</b> All Rights Reserved</span>
+    </div>
+</div>
+<div ui-view="loginModal"></div>

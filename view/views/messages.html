@@ -1,0 +1,29 @@
+<div class="modal fade" id="message_modal">
+     <div class="vertical-alignment-helper">
+        <div class="modal-dialog vertical-align-center">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="font-size:30px; color: white; opacity: 1">×</button>
+                        <h3 style="text-align: center; color: white" class="modal-title"><i class="fa fa-envelope"></i> New Message</h3>
+                    </div>
+                    <div class="modal-body  form-horizontal">
+                        <input ng-if="userDetails" class="form-control subject" style="margin-bottom: 15px" placeholder="Subject" />
+                        <div ng-if="!message_loaded" style="text-align: center">
+                            <i class="fa fa-spin fa-spinner fa-3x"></i>
+                        </div>
+                        <div ng-if="message_loaded">
+                        <textarea ng-if="!thread" ng-keyup="convertMessage()" class="form-control message" ng-model="listing.message" style="height: 150px" placeholder="Message"></textarea>
+                        <pre id="output" style="display: none"></pre>
+                        <p ng-if="thread">You have already sent this user a message for this listing. You can view the message <a href="http://dashboard.sellyx.com/#/app/email/detail?m={{thread_id}}" target="_blank">here</a> </p>
+                        </div>
+                    </div>
+                    <div ng-if="message_loaded">
+                        <div ng-if="!thread" class="modal-footer">
+                            <button class="btn btn-success" ng-click="sendMessage($event);">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

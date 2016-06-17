@@ -1,0 +1,18 @@
+<div class="modal fade" id="share_modal">
+     <div class="vertical-alignment-helper">
+        <div class="modal-dialog vertical-align-center">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="font-size:30px; color: white; opacity: 1">×</button>
+                        <h3 style="text-align: center; color: white" class="modal-title"><i class="fa fa-share"></i> Share Listing</h3>
+                    </div>
+                    <div class="modal-body  form-horizontal" style="text-align: center; padding-top: 0px; padding-bottom: 28px">
+                    <a ng-href="http://twitter.com/intent/tweet?url={{tweetLink}}" target="_blank"><img src="assets/img/Twitter-icon.png" style="width: 75px" /></a>
+                    <a ng-href="https://www.facebook.com/sharer.php?s=100&u={{tweetLink}}" target="_blank"><img src="assets/img/facebook_logo.png" style="width: 105px" /></a>
+                    <a href="mailto:?subject=Sellyx Listing: {{productDetails.title}}&amp;body={{tweetLink}}"><i class="fa fa-envelope" style="font-size: 80px; position: relative; top: 23px"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

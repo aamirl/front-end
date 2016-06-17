@@ -1,0 +1,56 @@
+<div class="modal fade" id="interest_modal">
+     <div class="vertical-alignment-helper">
+        <div class="modal-dialog vertical-align-center">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="font-size: 30px; opacity:1; color: white">×</button>
+                        <h3 style="text-align: center; color: white" class="modal-title"><i class="fa fa-envelope"></i> New Interest</h3>
+                    </div>
+                    <div class="modal-body  form-horizontal">
+                         <div class="form-group">
+                            <label class="col-xs-12 col-sm-3 control-label">Current Offer</label>
+                            <div class="col-xs-12 col-sm-9" style="padding-top: 7px">
+                                <span><b>{{currencySymbol}}{{productDetails.price.converted.substr(productDetails.price.converted.indexOf(' ')+1)}}{{productDetails.price_type? '/'+productDetails.price_type.converted : ''}}</b></span>                     
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-12 col-sm-3 control-label">Your Offer<span style="color: red">*</span></label>
+                            <div class="col-xs-12 col-sm-9">
+                                <div class="input-group">
+                                    <span class="input-group-addon">{{currencySymbol}}</span>                     <input class="form-control data-decimal" ng-model="interest.price" placeholder="price in chosen currency" value="" type="text">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-12 col-sm-3 control-label">Contact Method</label>
+                            <div class="col-xs-12 col-sm-9">
+                                <select class="form-control" ng-model="interest.contact">
+                                <option value="1">Message through Sellyx</option>
+                                <option ng-if="userInfo.email.id != ''" value="2">Email listed on Sellyx</option>
+                                <option value="3">Phone number listed on Sellyx</option>
+                                <option ng-if="userInfo.email.id != ''" value="4">Phone or Email listed on Sellyx</option>
+                                <option value="5">Other</option>
+                                </select>
+                            </div>
+                            <div ng-if="interest.contact == 5">
+                                <label style="margin-top: 15px" class="col-xs-12 col-sm-3 control-label">Other<span style="color: red">*</span></label>
+                                <div class="col-xs-12 col-sm-9">
+                                    <textarea class="form-control" ng-model="interest.custom" style="height: 75px; margin-top: 15px" placeholder="Please leave a contact method for the seller"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-12 col-sm-3 control-label">Message</label>
+                            <div class="col-xs-12 col-sm-9">
+                                <textarea class="form-control" ng-model="interest.message" style="height: 150px" placeholder="Please leave a message for the seller"></textarea>
+                            </div>
+                        </div>
+                        <div style="text-align: center; margin-top: 25px; margin-bottom: 15px">
+                        <button type="button" class="btn btn-success" style="width: 175px" ng-click="sendInterest($event)">Send Interest</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

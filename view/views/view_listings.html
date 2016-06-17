@@ -1,0 +1,186 @@
+<div style="padding: 10px; min-height: 100vh">
+<div class="listing-loading loading-style" style="display:inline-block; font-size: 30px"><i class="fa fa-spinner fa-pulse"></i> Loading</div>
+<div class="show-listing" style="display:none">
+<div class="col-sm-12 col-xs-12 col-md-7 mobile-padding" style="margin-top: 20px;">
+	<div style="text-align: center; border: 2px solid #DDD; padding: 30px">
+		<img check-product-image ng-src="{{displayImage}}" alt="" style="max-width:60%; border-radius: 4px 4px 0px 0px;"/>
+	</div>
+	<p style="text-align: center; margin-top: 10px; margin-bottom: 0px">Click below to see gallery of images</p>
+	<ng-gallery class="gallery" images="productImages" thumbs-num="productDetails.images.length"></ng-gallery>
+	<div ng-if="productDetails.description" class="col-xs-12" style="margin-top: 20px; padding: 0px">
+		<div class="panel panel-default">
+		<div class="well listing-header">Description</div>
+			<div class="panel-body">
+		    	<p ng-bind-html="productDetails.description | tweetLinky:''"></p>
+			</div>
+		</div>
+	</div>
+	<div class="hidden-xs hidden-sm col-xs-12" style="padding: 0">
+		<h3 style="margin-bottom: 15px !important" class="well">Other items from {{productDetails.entity.name}}</h3>
+	    <!-- <ul angular-grid="userItems" class="dynamic-grid" ag-grid-width="gridWidth" ag-gutter-size="10"> -->
+                <div data-ng-repeat="item in userItems" class="grids col-xs-6 col-sm-4" style="padding: 6px">
+                    <div style="border: 1px solid #DDD; border-bottom: none; border-radius: 4px 4px 0 0">
+                        <div style="position: relative;">
+                        	<div class="box">
+                                <div class="product-detail-image">
+                                    <img check-product-image class="clickable" ng-click="viewProduct(item.id)" ng-src="https://sellyx-ecom.s3-us-west-1.amazonaws.com/m_{{item.images[0] || '' }}?AWSAccessKeyId=AKIAIZYV5W77V235JRWQ" alt="" style="width:100%;"/>
+                                </div>
+                            </div>
+                            <img ng-click="viewUser(item.entity.id, item.entity.type)" style="background: #DDD; position: relative; left: 7px; bottom: 20px; border: 1px solid #007ee5" check-image ng-src="https://sellyx-ecom.s3-us-west-1.amazonaws.com/{{item.entity.id}}.jpg?AWSAccessKeyId=AKIAIZYV5W77V235JRWQ" alt="" class="user-home-image clickable" />
+                            <p class="text-primary clickable listing-name" ng-click="viewUser(item.entity.id, item.entity.type)" style="">{{item.entity.name}}</p>
+                        </div>
+                        <div class="caption" style="padding: 10px">
+                            <h4 class="clickable listing-title" ng-click="viewProduct(item.id)" style="overflow: hidden; text-overflow: ellipsis;white-space: nowrap; margin-top: -15px"><b>{{item.title}}</b></h4>
+                            <h5 class="text-primary listing-price" style="overflow: hidden; text-overflow: ellipsis;white-space: nowrap">{{currencySymbol}}{{item.price ? item.price.converted.substr(item.price.converted.indexOf(' ')+1) : 0}}</h4>
+<!--                             <h6><i class="fa fa-heart" style="color: red"></i> {{item.favorites.length? item.favorites.length : 0}} </h6> -->
+                            <h6 class="listing-date" style="color: #8B8B8B">{{item.setup.added.converted.timeago}}</h6>
+                        </div>
+<!--                         <div style="padding: 10px">
+                            <img check-image ng-src="https://sellyx-ecom.s3-us-west-1.amazonaws.com/{{item.entity.id}}.jpg?AWSAccessKeyId=AKIAIZYV5W77V235JRWQ" alt="" class="user-home-image" />
+                            <span ng-click="viewUser(item.entity.id)" class="clickable text-primary" style="padding-left: 8px; font-size: 12px">{{item.entity.name}}<span>
+                        </div> -->
+                    </div>
+                    <div style="border: 1px solid #DDD; padding: 5px; background: whitesmoke; border-radius: 0 0 4px 4px" class="col-xs-12">
+                        <div class="col-xs-9" style="padding-left: 0; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; font-size: 10px"><i class="fa fa-location-arrow text-primary"></i> {{item.distance.converted}}<span class="hidden-xs hidden-sm"> - {{item.location.city? item.location.city : item.location.formatted}}</span></div><div ng-if="item.favorites.length > 0" class="pull-right" style="padding-right: 0; text-align: right; font-size: 10px"><i class="fa fa-heart" style="color: red"></i> {{item.favorites.length? item.favorites.length : 0}} </div>
+                    </div>
+                </div>
+            <!-- </ul> -->
+	    <div ng-if="userLoad" style="text-align: center; margin-bottom: 30px" class="col-xs-12">
+			 <button style="height: 50px; font-size: 20px; font-weight: bold" type="submit" ng-click="loadUserItems('load', $event)" class="btn btn-primary">Load more <i class="fa fa-refresh"></i></button>
+	    </div>
+	  </div>
+</div>
+<div class="col-sm-12 col-xs-12 col-md-5 mobile-padding" style="margin-top: 20px">
+	<div class="panel panel-default">
+	<div class="well listing-header">Details</div>
+	<div class="panel-body">
+		<div class="listing-header" style="margin-bottom: 20px">
+			<span ng-bind="productDetails.title"><i class="fa fa-spinner fa-pulse"></i></span>
+			<span ng-if="productDetails.condition"> - <span ng-bind="productDetails.condition.converted"><i class="fa fa-spinner fa-pulse"></i></span></span>
+			<p class="listing-price" style="font-size: 18px; word-wrap: break-word; margin-bottom: 0"><span ng-bind="currencySymbol + priceConversionCommas"><i class="fa fa-spinner fa-pulse"></i></span><span ng-if="productDetails.price_type">/<span style="font-size: 15px;color: rgb(108, 108, 108)">{{productDetails.price_type.converted}}</span></span></p>
+			<p style="color: rgb(108, 108, 108); font-size: 15px; margin-top: 0" ng-if="productDetails.p_type">({{productDetails.p_type.converted}})</p>
+		</div>
+			<div class="col-xs-6" style="margin-left: -15px; margin-right: -15px">
+				<div class="media" style="margin-bottom: 5px">
+				  <div class="media-left" style="padding-right: 5px">
+				    <a href="" class="listing-image-name" ng-click="viewUser(productDetails.entity.id, productDetails.entity.type)">
+				      <img class="media-object listing-user-image" style="width: 85px;border: 1px solid #DDD" check-image src="https://sellyx-ecom.s3-us-west-1.amazonaws.com/{{productDetails.entity.id}}.jpg" alt="...">
+				    </a>
+				   	<uib-rating ng-if="showRating" style="outline: 0; font-size:15px; position: absolute; left: 18px" class="listing-star-rating" ng-model="rating" max="5" data-readonly="true"></uib-rating>
+				  </div>
+				  <div class="media-body">
+<!-- 				    <p class="media-heading listing-user-name" style="font-size:14px"><a ng-bind="productDetails.entity.name"><i class="fa fa-spinner fa-pulse"></i></a></p> -->
+				  </div>
+				</div>
+			</div>
+			<div class="col-xs-6 listing-item-details" style="font-size: 15px;">
+				<div><i class="fa fa-calendar"></i> <span ng-bind="productDetails.setup.added.converted.timeago"><i class="fa fa-spinner fa-spin"></i></span></div>
+				<div><i class="fa fa-list"></i> <span ng-bind="productDetails.type.converted"><i class="fa fa-spinner fa-pulse"></i></span></div>
+				<div ng-if="productDetails.category"><i class="fa fa-list-alt"></i> <span ng-bind="productDetails.category.converted"><i class="fa fa-spinner fa-pulse"></i></span></div>
+				<div ng-if="productDetails.delivery"><i class="fa fa-car"></i> <span ng-bind="productDetails.delivery.value.converted"><i class="fa fa-spinner fa-pulse"></i></span></div>
+				<div ng-if="productDetails.htype"><i class="fa fa-home"></i> <span ng-bind="productDetails.htype.converted"><i class="fa fa-spinner fa-pulse"></i></span></div>
+				<div ng-if="productDetails.quantity"><i class="fa fa-shopping-cart"></i> <span ng-bind="productDetails.quantity + ' Available'"><i class="fa fa-spinner fa-pulse"></i></span></div>
+				<div ng-if="productDetails.rooms"><i class="fa fa-bed"></i> <span ng-bind="productDetails.rooms.converted"><i class="fa fa-spinner fa-pulse"></i></span></div>
+				<div ng-if="productDetails.bathrooms_f"><i class="fa fa-newspaper-o"></i> <span ng-bind="productDetails.bathrooms_f.converted"><i class="fa fa-spinner fa-pulse"></i></span></div>
+				<div ng-if="productDetails.bathrooms_h"><i class="fa fa-newspaper-o"></i> <span ng-bind="productDetails.bathrooms_h.converted"><i class="fa fa-spinner fa-pulse"></i></span></div>
+				<div ng-if="productDetails.square_feet"><i class="fa fa-home"></i> <span ng-bind="productDetails.square_feet"><i class="fa fa-spinner fa-pulse"></i></span> Square Feet</div>
+				<div ng-if="productDetails.pets"><i class="fa fa-paw"></i> <span ng-bind="productDetails.pets.converted"><i class="fa fa-spinner fa-pulse"></i></span></div>
+				<div ng-if="productDetails.company"><i class="fa fa-building"></i> <span ng-bind="productDetails.company + ' (company)'"><i class="fa fa-spinner fa-pulse"></i></span></div>
+				<div ng-if="productDetails.jtitle"><i class="fa fa-briefcase"></i> <span ng-bind="productDetails.jtitle + ' (job title)'"><i class="fa fa-spinner fa-pulse"></i></span></div>
+				<div ng-if="productDetails.experience"><i class="fa fa-book"></i> <span ng-bind="productDetails.experience.converted"><i class="fa fa-spinner fa-pulse"></i></span></div>
+			</div>
+		<div class="col-xs-12 listing-buttons" style="text-align:center; margin-top: 30px; margin-bottom: 30px">
+			<button style="font-size: 20px; margin-bottom: 15px; width: 100%" type="button" ng-click="openMessages();" class="btn btn-primary">Send Message</button>
+			<button ng-if="productDetails.type.data == 1 || productDetails.type.data == 2 || productDetails.type.data == 3"style="font-size: 20px; width: 100%" type="button" class="btn btn-success" ng-click="openKey();">Reserve Item*</button>
+<!-- 			<button ng-if="productDetails.type.data == 4 || productDetails.type.data == 5 || productDetails.type.data == 6 || productDetails.type.data == 7 || productDetails.type.data == 8"style="font-size: 20px; width: 100%" type="button" class="btn btn-success" ng-click="openInterests();"><i class="fa fa-paper-plane-o"></i> Send Interest</button> -->
+			<p class="key-message" style="margin-top: 20px" ng-if="productDetails.type.data == 1 || productDetails.type.data == 2 || productDetails.type.data == 3">*This is not a transaction, no money is being moved at this time. The transaction is completed only when you are satisfied with the product and transfer money to the seller.</p>
+		</div>
+		<div class="col-xs-12 listing-detail-buttons" style="text-align: center; font-size: 20px; font-weight: bold">
+			<div class="col-xs-4 clickable" ng-click="flagListing(productDetails.id, $event);"><i class="fa fa-flag-o fa-2x text-primary" style=""></i><br> Flag</div>
+			<div class="col-xs-4"><span class="clickable" ng-click="openShareModal()"><i class="fa fa-share fa-2x text-primary"></i></span><br> Share</div>
+			<div class="col-xs-4 clickable"><span class="clickable" ng-click="favoriteListing(productDetails.id, $event)"><i ng-if="!favorite" class="fa fa-heart-o fa-2x" style="color: red"></i><i ng-if="favorite" class="fa fa-heart fa-2x" style="color: red"></i></span><br> Favorite</div>
+		</div>
+		</div>
+	</div>
+	<div class="col-xs-12" style="margin-top: 20px; padding: 0px">
+		<div class="panel panel-default">
+		<div class="well listing-header">Location</div>
+			<div class="panel-body">
+		    	<div id="map" style="width: 100%; height: 400px"></div>
+		    	<p style="margin-top: 15px">Near: <span ng-bind="productDetails.location.formatted"><i class="fa fa-spinner fa-pulse"></i></span></p>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="visible-xs visible-sm col-xs-12 mobile-padding">
+		<h3 style="margin-bottom: 15px !important" class="well">Other items from {{productDetails.entity.name}}</h3>
+	    <!-- <ul angular-grid="userItems" class="dynamic-grid" ag-grid-width="gridWidth" ag-gutter-size="10"> -->
+                <div data-ng-repeat="item in userItems" class="grids col-xs-6 col-sm-4" style="padding: 6px">
+                    <div style="border: 1px solid #DDD; border-bottom: none; border-radius: 4px 4px 0 0">
+                        <div style="position: relative;">
+                           <div class="box">
+                                <div class="product-detail-image">
+                                    <img check-product-image class="clickable" ng-click="viewProduct(item.id)" ng-src="https://sellyx-ecom.s3-us-west-1.amazonaws.com/m_{{item.images[0] || '' }}?AWSAccessKeyId=AKIAIZYV5W77V235JRWQ" alt="" style="width:100%;"/>
+                                </div>
+                            </div>
+                            <img ng-click="viewUser(item.entity.id, item.entity.type)" style="background: #DDD; position: relative; left: 7px; bottom: 20px; border: 1px solid #007ee5" check-image ng-src="https://sellyx-ecom.s3-us-west-1.amazonaws.com/{{item.entity.id}}.jpg?AWSAccessKeyId=AKIAIZYV5W77V235JRWQ" alt="" class="user-home-image clickable" />
+                            <p class="text-primary clickable listing-name" ng-click="viewUser(item.entity.id, item.entity.type)" style="">{{item.entity.name}}</p>
+                        </div>
+                        <div class="caption" style="padding: 10px">
+                            <h4 class="clickable listing-title" ng-click="viewProduct(item.id)" style="overflow: hidden; text-overflow: ellipsis;white-space: nowrap; margin-top: -15px"><b>{{item.title}}</b></h4>
+                            <h5 class="text-primary listing-price" style="overflow: hidden; text-overflow: ellipsis;white-space: nowrap">{{currencySymbol}}{{item.price.converted.substr(item.price.converted.indexOf(' ')+1)}}</h4>
+<!--                             <h6><i class="fa fa-heart" style="color: red"></i> {{item.favorites.length? item.favorites.length : 0}} </h6> -->
+                            <h6 class="listing-date" style="color: #8B8B8B">{{item.setup.added.converted.timeago}}</h6>
+                        </div>
+<!--                         <div style="padding: 10px">
+                            <img check-image ng-src="https://sellyx-ecom.s3-us-west-1.amazonaws.com/{{item.entity.id}}.jpg?AWSAccessKeyId=AKIAIZYV5W77V235JRWQ" alt="" class="user-home-image" />
+                            <span ng-click="viewUser(item.entity.id)" class="clickable text-primary" style="padding-left: 8px; font-size: 12px">{{item.entity.name}}<span>
+                        </div> -->
+                    </div>
+                    <div style="border: 1px solid #DDD; padding: 5px; background: whitesmoke; border-radius: 0 0 4px 4px" class="col-xs-12">
+                        <div class="col-xs-9" style="padding-left: 0; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; font-size: 10px"><i class="fa fa-location-arrow text-primary"></i> {{item.distance.converted}}<span class="hidden-xs hidden-sm"> - {{item.location.city? item.location.city : item.location.formatted}}</span></div><div ng-if="item.favorites.length > 0" class="pull-right" style="padding-right: 0; text-align: right; font-size: 10px"><i class="fa fa-heart" style="color: red"></i> {{item.favorites.length? item.favorites.length : 0}} </div>
+                    </div>
+                </div>
+            <!-- </ul> -->
+	    <div ng-if="userLoad" style="text-align: center; margin-bottom: 30px" class="col-xs-12">
+			 <button style="height: 50px; font-size: 20px; font-weight: bold" type="submit" ng-click="loadUserItems('load', $event)" class="btn btn-primary">Load more <i class="fa fa-refresh"></i></button>
+	    </div>
+	  </div>
+</div>
+<div class="no-listing cannot-find" style="display:none;">
+<h4 style="border-bottom: 1px solid black">404 Not Found</h4>
+<h2>Unfortunately this page can not be displayed...</h2>
+<h5>The page you requested was not found.</h5>
+<ul>
+	<li>If you typed the URL directly, please make sure the spelling is correct.</li>
+	<li>If you clicked on a link to get here, the link may be outdated.</li>
+	<li>The listing you were looking for may have sold, or been moved.</li>
+</ul>
+<h3>The options below should help you find the listing/page you are looking for:</h3>
+<ul>
+	<li>Refresh this page by clicking refresh on your browser.</li>
+	<li>Use the search bar at the top of the page to search again.</li>
+	<li>Click on the 'Sellyx' logo in the top bar to navigate back to the homepage.</li>
+	<li>If you continue to see this error page, <a class="clickable" href="mailto:contact@sellyx.com">email</a> our support team for help.</li>
+</ul>
+</div>
+</div>
+
+<div class="col-xs-12 show-footer" style="padding: 0; display:none">
+    <div id="footer">
+        <ul class="footer-nav" style="list-style: none; padding-top: 10px">
+            <li><a ui-sref="app.howItWorks">How It Works</a></li>
+            <li><a ui-sref="app.about">About Us</a></li>
+            <li><a ui-sref="app.contact">Contact</a></li>
+            <li><a ui-sref="app.privacy">Privacy Policy</a></li>
+            <li><a ui-sref="app.terms">Terms and Conditions</a></li>
+        </ul>
+        <span class="center" style="position:absolute; bottom: 10px">&copy; 2016 <b>Sellyx, Inc.</b> All Rights Reserved</span>
+    </div>
+</div>
+
+<div ui-view="messageModal"></div>
+<div ui-view="shareModal"></div>
+<div ui-view="interestModal"></div>
+<div ui-view="keyModal"></div>
+<div ui-view="loginModal"></div>

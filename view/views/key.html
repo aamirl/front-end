@@ -1,0 +1,207 @@
+<div class="modal fade" id="key_modal">
+     <div class="vertical-alignment-helper">
+        <div class="modal-dialog vertical-align-center">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary" style="border-bottom: none !important">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="color:white; opacity: 1">×</button>
+                        <h1 style="text-align: center; color: white" class="modal-title">Reserve Item</h1>
+                    </div>
+                    <div class="modal-body  form-horizontal">
+                    <div ng-if="purchasing" style="position:absolute; height: 100%; width: 100%; opacity: 0.5; z-index: 5; background:black; opacity: 0.2; left: 0px; top: 0px;">
+                        <i class="fa fa-spinner fa-pulse fa-4x" style="color:white; position: relative;left: 47%; top: 39% "></i>
+                    </div>
+                    <div ng-if="!purchased">
+                        <div ng-if="!sellyxPayOption">
+                            <div style="margin-top: 10px; margin-bottom: 20px" class="col-xs-12">
+                                <div class="col-xs-9" style="font-size:20px; font-weight: bold;">
+                                    <div style="width: 50px; height: 70px; overflow: hidden; display: inline-block; float: left; margin-right: 10px">
+                                        <img check-product-image style="width: 50px; margin-right: 5px" ng-src="{{purchaseAvatar}}" />
+                                    </div>
+                                    <p class="key-listing-title">{{productDetails.title}}<br>
+                                    {{currencySymbol}}{{priceConversionCommas}}{{productDetails.price_type? '/'+productDetails.price_type.converted : ''}}</p>
+                                </div>
+                                    <div class="col-xs-3" ng-if="productDetails.quantity">
+                                        <span>Qty</span>
+                                         <select select="" class="form-control" style="width: 70px; display: inline-block" ng-model="offer.qty">
+                                             <option value="1">1</option>
+                                             <option ng-repeat="i in getNumber(number) track by $index" value="{{$index + 2}}">{{$index + 2}}</option>
+                                         </select>
+                                    </div>
+                            </div>
+                                <div class="form-group">
+                                    <label class="col-xs-12 col-sm-2 control-label s-d-red">Offer</label>
+                                    <div class="col-xs-12 col-sm-9">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">{{currencySymbol}}</span>                 
+                                            <input class="form-control data-decimal offer-price" data-var="title" ng-model="offer.price" ng-keyup="priceError($event)" placeholder="price in chosen currency" value="" type="text" maxlength="8">
+                                        </div>
+                                    </div>
+                                    <div ng-if="offer.qty && offer.price" class="col-xs-12 estimated-total" style="text-align:right; padding-right: 70px; margin-top: 20px">
+                                        <div class="col-xs-8" style="padding-right: 0">
+                                            <p>Subtotal:</p>
+                                            <p><i class="fa fa-question-circle clickable" popover-placement="top" uib-popover="A 3% transaction fee is added to all credit/debit transactions."></i> Transaction Fee:</p>
+                                            <p><b>Estimated Total:</b></p>
+                                        </div>
+                                        <div class="col-xs-4" style="padding-right: 0">
+                                            <p>{{currencySymbol}}{{fixedNumber(offer.price * offer.qty, 2)}}</p>
+                                            <p>{{currencySymbol}}{{fixedNumber((offer.price * offer.qty * 1.03) - (offer.price*offer.qty), 2)}}</p>
+                                            <p>{{currencySymbol}}{{fixedNumber(offer.price * offer.qty * 1.03, 2)}}</p>
+                                        </div>
+                                       <!--  <p style="display: inline-block; padding-right: 117px">Subtotal: </p>{{currencySymbol}}{{(offer.price * offer.qty).toFixed(2)}}<br>
+                                        <p style="display: inline-block; padding-right: 106px">Transaction Fee: </p>{{currencySymbol}}{{(offer.price * offer.qty * .03).toFixed(2)}}<br>
+                                        <span><b style="padding-right: 68px">Estimated Total: </b></span><span>{{currencySymbol}}{{(offer.price * offer.qty * 1.03).toFixed(2)}}</span> -->
+                                    </div>
+                                    <div ng-if="offer.qty && !offer.price" class="col-xs-12 estimated-total" style="text-align:right; padding-right: 70px; margin-top: 20px">
+                                        <div class="col-xs-8" style="padding-right: 0">
+                                            <p>Subtotal:</p>
+                                            <p><i class="fa fa-question-circle clickable" popover-placement="top" uib-popover="A 3% transaction fee is added to all credit/debit transactions."></i> Transaction Fee:</p>
+                                            <p><b>Estimated Total:</b></p>
+                                        </div>
+                                        <div class="col-xs-4" style="padding-right: 0">
+                                            <p>{{currencySymbol}}{{fixedNumber(priceConversion * offer.qty, 2)}}</p>
+                                            <p>{{currencySymbol}}{{fixedNumber((priceConversion * offer.qty * 1.03) - (priceConversion * offer.qty), 2)}}</p>
+                                            <p>{{currencySymbol}}{{fixedNumber(priceConversion * offer.qty * 1.03, 2)}}</p>
+                                        </div>
+                                        <!-- <p style="display: inline-block; padding-right: 117px">Subtotal: </p>{{currencySymbol}}{{(priceConversion * offer.qty).toFixed(2)}}<br>
+                                        <p style="display: inline-block; padding-right: 106px">Transaction Fee: </p>{{currencySymbol}}{{(priceConversion * offer.qty * .03).toFixed(2)}}<br>
+                                        <span><b style="padding-right: 68px">Estimated Total: </b></span><span>{{currencySymbol}}{{(priceConversion * offer.qty * 1.03).toFixed(2)}}</span> -->
+                                    </div>
+                                </div>
+                            </div>
+                        <div ng-if="sellyxPayOption">
+                            <div style="margin-top: 10px; margin-bottom: 20px" class="col-xs-12">
+                                <div class="col-xs-9" style="font-size:20px; font-weight: bold;">
+                                    <div style="width: 50px; height: 70px; overflow: hidden; display: inline-block; float: left; margin-right: 10px">
+                                        <img check-product-image style="width: 50px; margin-right: 5px" ng-src="https://sellyx-ecom.s3-us-west-1.amazonaws.com/s_{{productDetails.images[0] || ''}}" />
+                                    </div>
+                                    <p class="key-listing-title">{{productDetails.title}}<br>
+                                    ${{originalPriceConversion}}{{productDetails.price_type? '/'+productDetails.price_type.converted : ''}}</p>
+                                </div>
+                                    <div class="col-xs-3" ng-if="productDetails.quantity">
+                                        <span>Qty</span>
+                                         <select select="" class="form-control" style="width: 70px; display: inline-block" ng-model="offer.qty">
+                                             <option value="1">1</option>
+                                             <option ng-repeat="i in getNumber(number) track by $index" value="{{$index + 2}}">{{$index + 2}}</option>
+                                         </select>
+                                    </div>
+                            </div>
+                                <div class="form-group">
+                                    <label class="col-xs-12 col-sm-2 control-label s-d-red">Offer</label>
+                                    <div class="col-xs-12 col-sm-9">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">$</span>                 
+                                            <input class="form-control data-decimal offer-price" data-var="title" ng-model="offer.price" ng-keyup="priceError($event)" placeholder="price in chosen currency" value="" type="text" maxlength="8">
+                                        </div>
+                                    </div>
+                                    <div ng-if="offer.qty && offer.price" class="col-xs-12 estimated-total" style="text-align:right; padding-right: 70px; margin-top: 20px">
+                                        <span><b>Estimated Total: </b></span><span>${{fixedNumber(offer.price * offer.qty, 2)}}</span>
+                                    </div>
+                                    <div ng-if="offer.qty && !offer.price" class="col-xs-12 estimated-total" style="text-align:right; padding-right: 70px; margin-top: 20px">
+                                        <span><b>Estimated Total: </b></span><span>${{fixedNumber(productDetails.price.data * offer.qty, 2)}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="title-container"><h5 class="payment-title">Payment Method</h5></div>
+                            <uib-tabset justified="true" class="key-modal-tabs">
+                                <uib-tab select="switchPay()">
+                                    <uib-tab-heading>
+                                        <i class="fa fa-credit-card"></i> Credit/Debit
+                                    </uib-tab-heading>
+                                        <div class="payment-errors" style="text-align:center; color: red">{{cardError}}</div>
+                                        <div ng-if="!addCard && !cardsLoaded" style="text-align: center; margin-bottom: 35px">
+                                                <i class="fa fa-spinner fa-pulse fa-3x"></i>
+                                            </div>
+                                        <div ng-if="!addCard && cardsLoaded" class="col-xs-12 credit-cards-container" style="position:relative; left: 45px; margin-bottom: 30px">
+                                            <div class="col-xs-5 col-sm-3 clickable credit-cards" style="border:3px solid #DDD; border-radius:4px; padding: 13px; text-align: center; height: 80px; margin-right: 20px; margin-top: 20px; background: rgb(222, 222, 222); font-weight: bold" ng-click="newCard()">
+                                                <span style="position:relative; top: 5px">Add Card +</span>
+                                            </div>
+                                            <div class="col-xs-5 col-sm-3 clickable credit-cards" ng-repeat="card in savedCards" style="border:3px solid #DDD; border-radius:4px; height: 80px; padding: 13px; text-align: center; margin-right: 20px; margin-top: 20px" data-card="{{card.id}}" ng-click="selectCard($event)" ng-hide="card.type == 'bank_account'">
+                                                <p style="position:relative; top: 5px">xxx{{card.last4}}</p>
+                                                <img ng-if="card.brand == 'Visa'" src="assets/img/visa.png" class="pull-right" style="position:relative; left: 5px; top: 5px; width: 45px"></i>
+                                                <img ng-if="card.brand == 'American Express'" src="assets/img/american-express.png" class="pull-right" style="position:relative; left: 5px; top: 5px; width: 45px"></i>
+                                                <img ng-if="card.brand == 'MasterCard'" src="assets/img/mastercard.png" class="pull-right" style="position:relative; left: 5px; top: 2px; width: 45px"></i>
+                                                <img ng-if="card.brand == 'Discover'" src="assets/img/discover.png" class="pull-right" style="position:relative; left: 5px; top: 2px; width: 40px"></i>
+                                                <img ng-if="card.brand == 'JCB'" src="assets/img/jcb.png" class="pull-right" style="position:relative; left: 5px; top: 2px; width: 38px"></i>
+                                                <img ng-if="card.brand == 'Diners Club'" src="assets/img/diners-club.png" class="pull-right" style="position:relative; left: 5px; width: 40px"></i>
+                                                <i ng-if="card.brand == 'Unknown'"class="fa fa-cc-credit-card fa-2x pull-right" style="position:relative; left: 5px; top: 5px"></i>
+                                            </div>
+                                        </div>
+                                        <div ng-if="!addCard" class="col-xs-12" style="text-align: center">
+                                            <button type="submit" ng-click="savedCardPurchase()" class="btn btn-success sellyxpay-btn" style="width: 300px; margin-bottom: 40px;">Reserve Item</button>
+                                        </div>
+                                        <div ng-if="addCard">
+                                            <div ng-if="savedCards"style="text-align: center">
+                                                <a href="" ng-click="newCard()">Use previously saved card</a>
+                                            </div>
+                                            <div style="text-align: center; margin-top: 15px; margin-bottom: 15px">
+                                                <img src="assets/img/credit-card-logos.png" style="width: 75%; padding-left: 10px" />
+                                            </div>
+                                            <div class="form-group" style="margin-top: 10px">
+                                                <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2">
+                                                    <input class="form-control" ng-model="card.name" value="" type="text" placeholder="Full name on card">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <form ng-if="addCard" method="POST" id="payment-form">
+                                         <div class="form-group form-row">
+                                            <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2">
+                                                <input class="form-control" size="20" data-stripe="number" placeholder="Card Number" ng-model="card.number" value="" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-xs-3 col-xs-offset-1 col-sm-2 col-sm-offset-2">
+                                                <input class="form-control" size="4" data-stripe="cvc" ng-model="card.cvc" placeholder="CVC" value="" type="text">
+                                            </div>
+                                            <div class="col-xs-5 col-xs-offset-1 col-sm-3 col-sm-offset-3">
+                                            <div class="form-group">
+                                                <input style="width: 45px; height: 33px" size="2"  data-stripe="exp-month" ng-model="card.exp_month" value="" type="text" placeholder="MM"> / 
+                                                <input  style="width: 58px; height: 33px" size="4" data-stripe="exp-year" ng-model="card.exp_year" value="" type="text" placeholder="YYYY">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="text-align: center">
+                                            <button type="submit" ng-click="submitForm()" class="btn btn-success sellyxpay-btn" style="width: 300px;">Reserve Item</button>                                            
+                                        </div>
+                                    </form>
+                                </uib-tab>
+                                <uib-tab select="switchPay()">
+                                    <uib-tab-heading>
+                                        <img style="width: 25px; margin-right: 5px" src="assets/img/blue-logo.png" /> Sellyx Pay
+                                    </uib-tab-heading>
+                                    <div class="sellyx-balance" style="text-align: center;">
+                                        <span class="current-balance" style="position: relative; bottom: 21px; padding-right: 0px"><b>Current Balance </b></span>
+                                        <iframe width="45%" height="40" style="border: none;" src="https://financials.sellyx.com/query/balance_frame?fontsize=15px&fontcolor=black&type=available&options=font-family:'Nunito',sans-serif;font-weight:100;" scrolling="no"></iframe><br>
+                                        <span style="position: relative; bottom: 15px; padding-right: 0px"><b>Value of item </b></span>
+                                        <div class="key-value" ng-if="offer.qty && offer.price" style="width: 49%; font-size: 15px; position: relative; bottom: 15px; display:inline-block; padding-left: 30px; text-align:left">${{fixedNumber(offer.price * offer.qty, 2)}}</div>
+                                        <div class="key-value" ng-if="offer.qty && !offer.price" style="width: 49%; font-size: 15px; position: relative; bottom: 15px; display:inline-block; padding-left: 30px; text-align:left">${{fixedNumber(productDetails.price.data * offer.qty, 2)}}</div>
+                                        <div style="text-align: center; margin-top: 20px">
+                                            <div style="margin-bottom: 20px"><span style="color:red;">{{sellyxError}}</span></div>
+                                            <button type="submit" ng-click="sellyxPay($event)" class="btn btn-success sellyxpay-btn" style="width: 300px">Reserve Item</button>                                            
+                                        </div>
+                                       <!--  <p style="margin-top:10px">*Sellyx Pay is currently only available in USD.</p> -->
+                                    </div> 
+                                </uib-tab>
+                            </uib-tabset>
+                        </div>
+                        <div ng-if="purchased" style="text-align: center">
+                            <h1><i class="fa fa-check-circle text-success"></i> Success!</h1>
+                            <div ng-if="!bestOffer">
+                                <p>You reserved the item:</p>
+                            </div>
+                            <div ng-if="bestOffer">
+                                <p>Your best offer has been submitted. Your reservation will not be generated until the seller has accepted your offer. We will notify you when the seller accepts or denies your offer.</p>
+                            </div>
+                            <img check-product-image style="width: 80px; margin-right: 5px" ng-src="{{purchaseAvatar}}" />
+                            <h3>{{productDetails.title}}</h3>
+                            <!-- <h3 style="margin-top: 0px; margin-bottom: 50px">{{amount}}</h3> -->
+                            <a href="http://dashboard.sellyx.com/#/app/manager/reservations"><button type="button" class="btn btn-success" style="margin-bottom: 30px">View in My Reservations</button></a>
+                        </div>
+                        <div style="text-align: center">
+                            <img style="width: 100px" src="assets/img/big.png" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

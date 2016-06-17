@@ -1,0 +1,160 @@
+<div class="hidden-xs" style="position:fixed; right: 17px; bottom: 0; z-index: 10">
+    <button style="height: 40px" ui-sref="app.rooms" type="button" class="btn btn-success"><i class="fa fa-video-camera"></i> View live demos in your area</button>
+</div>
+    <div style="height:425px; background-position: 50%; background-image: url('assets/img/download7.jpg'); background-size: cover">
+    <div class="col-sm-12" style="position:relative; top: 20px">
+        <div class="col-sm-12 home-page-text" style="">
+            <p style="font-size: 85px; margin-bottom: 0">Sellyx</p>
+            <p class="sellyx-description" style="font-size: 20px; position:relative; bottom: 15px"><b>Local marketplace made safe. Buy and sell locally with confidence. <br> Now live in the LA/Santa Monica area!</b></p>
+        </div>
+        <div class="col-sm-12 home-page-text" style="text-align: center">
+            <a href="https://itunes.apple.com/us/app/sellyx-buy-sell-locally-safely/id1107060774?ls=1&mt=8"><img src="assets/img/apple-store.png" style="width: 140px" /></a>
+            <a href="https://play.google.com/store/apps/details?id=com.app.sellyx"><img src="assets/img/google-play.png" style="width: 140px"/></a>
+            <p style="font-size: 20px"><b>Download the free app!</b></p>
+        </div>
+    </div>
+
+<!--         <img class="home-logo" src="assets/img/blue-logo-full.png" style="width: 365px; margin-top: 75px; margin-bottom: 50px;"/> -->
+        <!-- <img src="assets/img/download.jpg"> -->
+<!--         <div style="display: inline-block; position: relative; left: 60px; top: 45px" class="hidden-xs">
+            <img src="assets/img/apple-store.png" style="width: 140px" />
+            <img src="assets/img/google-play.png" style="width: 140px"/>
+        </div> -->
+<!--         <a ui-sref="app.rooms"><i style="font-size: 50px" class="fa fa-video-camera text-primary clickable home-camera"></i></a> -->
+    </div>
+  <uib-tabset justified="true" class="home-listings">
+    <uib-tab active="active.tab" select="reload()">
+        <uib-tab-heading class="mobile-tabs" style="font-size: 18px">
+            <i class="fa fa-map-marker"></i> Listings
+        </uib-tab-heading>
+        <div class="col-xs-12 sort-button-container" style="position: relative; bottom: 20px; padding: 15px">
+            <div style="display: inline-block" class="hidden-xs hidden-sm"><h4 ng-cloak><i class="fa fa-map-pin"></i> Listings near {{user_locate}}</h4></div>
+            <div class="btn-group pull-right sort-by filter-buttons" uib-dropdown>
+              <button id="single-button" type="button" class="btn" style="font-size: 15px; padding: 10px; background: white; border: 1px solid #007EE5; border-radius: 4px !important; width: 120px" uib-dropdown-toggle>
+                <b class="text-primary">Sort by: <i class="fa fa-caret-down"></i></b>
+              </button>
+              <ul uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                <li ng-click="sortBy('date','desc')" role="menuitem"><a href="">Newest</a></li>
+                <li ng-click="sortBy('date','asc')" role="menuitem"><a href="">Oldest</a></li>
+                <li ng-click="sortBy('price','asc')" role="menuitem"><a href="">Price: $ - $$</a></li>
+                <li ng-click="sortBy('price','desc')" role="menuitem"><a href="">Price: $$ - $</a></li>
+                <li ng-click="sortBy('distance','asc')" role="menuitem"><a href="">Closest</a></li>
+                <li ng-click="sortBy('distance','desc')" role="menuitem"><a href="">Furthest</a></li>
+              </ul>
+            </div>
+            <button type="button" class="btn pull-right filter-buttons" style="margin-right: 15px; font-size: 15px;width: 120px; padding: 10px; background: white; border: 1px solid #007EE5; border-radius: 4px !important" ng-click="filtering();"><b class="text-primary">Filter</b></button>
+            <div ng-if="clearSearch" style="margin-top: 5px; margin-bottom: 5px"><button type="button" class="btn" ng-click="clearSearchFilter()" style="background: white none repeat scroll 0% 0%; border: 1px solid rgb(30, 119, 197); border-radius: 4px !important; color: rgb(30, 119, 197);"><i class="fa fa-close"></i> Clear Search Query</button></div>
+        </div>
+        <div class="no-results" style="height: 100vh; display: none"><h1 style="text-align: center">Sorry no results were found. Please try a new search.</h1></div>
+<!--         <div infinite-scroll="load('load')" infinite-scroll-disabled="infiniteScroll" infinite-scroll-distance="1" style="height: 100%; margin-top: 55px"> -->
+        <div infinite-scroll-disabled="infiniteScroll" infinite-scroll-distance="1" style="min-height: 100vh; margin-top: 80px">
+        <div ng-if="!listings_loaded" style="text-align: center; font-size: 30px; position: relative; top: 100px">Loading <i class="fa fa-spinner fa-spin"></i></div>
+<!--         <div ng-show="listings_loaded"> -->
+<!--             <ul angular-grid="items" ag-id="gallery" class="dynamic-grid" ag-grid-width="gridWidth" ag-gutter-size="gutterWidth"> -->
+                <div data-ng-repeat="item in items" class="grids col-xs-6 col-sm-4 col-md-3" style="padding: 6px">
+                    <div style="border: 1px solid #DDD; border-bottom: none; border-radius: 4px 4px 0 0">
+                        <div style="position: relative;">
+                            <div class="box">
+                                <div class="product-detail-image">
+                                    <img check-product-image class="clickable" ng-click="viewProduct(item.id)" ng-src="https://sellyx-ecom.s3-us-west-1.amazonaws.com/m_{{item.images[0] || '' }}?AWSAccessKeyId=AKIAIZYV5W77V235JRWQ" alt="" style="width:100%;"/>
+                                </div>
+                            </div>
+                             <img ng-click="viewUser(item.entity.id, item.entity.type)" style="background: #DDD; position: relative; left: 7px; bottom: 20px; border: 1px solid #007ee5" check-image ng-src="https://sellyx-ecom.s3-us-west-1.amazonaws.com/{{item.entity.id}}.jpg?AWSAccessKeyId=AKIAIZYV5W77V235JRWQ" alt="" class="user-home-image clickable" />
+                            <p class="text-primary clickable listing-name" ng-click="viewUser(item.entity.id, item.entity.type)" style="">{{item.entity.name}}</p>
+                        </div>
+                        <div class="caption" style="padding: 10px">
+                            <h5 class="clickable listing-title" ng-click="viewProduct(item.id)" style="height: 39px; overflow: hidden;margin-top: -15px"><b>{{item.title}}</b></h5>
+                            <h5 class="text-primary listing-price" style="overflow: hidden; text-overflow: ellipsis;white-space: nowrap">{{currencySymbol}}{{item.price? item.price.converted.substr(item.price.converted.indexOf(' ')+1) : 0}}</h4>
+                            <h6 class="listing-date" style="color: #8B8B8B">{{item.setup.added.converted.timeago}}</h6>
+                        </div>
+                    </div>
+                    <div style="border: 1px solid #DDD; padding: 5px; background: whitesmoke; border-radius: 0 0 4px 4px; font-size: 11px" class="col-xs-12">
+                        <div class="col-xs-9" style="padding-left: 0; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;"><i class="fa fa-location-arrow text-primary"></i> {{item.distance.converted}}<span class="hidden-xs"> - {{item.location.city? item.location.city : item.location.formatted}}</span></div><div ng-if="item.favorites.length > 0" class="pull-right" style="padding-right: 0; text-align: right"><i class="fa fa-heart" style="color: red"></i> {{item.favorites.length? item.favorites.length : 0}} </div>
+                    </div>
+                </div>
+            <!-- </ul> -->
+<!--             </div> -->
+<!--         <div class="grid" masonry="{'gutter': 15, 'columnWidth': 195, 'itemSelector': '.masonry-brick', 'fitWidth': true}" style="min-height: 300px;">
+            <div class="row masonry-brick" ng-repeat="item in items" style="border: 1px solid #DDD">
+               <div style="padding: 15px">
+                        <img check-product-image class="clickable" ng-click="viewProduct(item.id)" ng-src="https://sellyx-ecom.s3-us-west-1.amazonaws.com/l_{{item.images[0] || '' }}?AWSAccessKeyId=AKIAIZYV5W77V235JRWQ" alt="" style="width:100%;"/>
+                        <div class="caption">
+                            <h3 class="clickable" ng-click="viewProduct(item.id)">{{item.title}}</h3>
+                            <h4 class="text-primary">{{currencySymbol}}{{item.price.converted.substr(item.price.converted.indexOf(' ')+1)}}</h4>
+                            <h5 ng-if="item.favorites"><i class="fa fa-heart" style="color: red"></i> {{item.favorites.length}} </h5>
+                            <span style="color: #8B8B8B">{{item.setup.added.converted.timeago}}</span>
+                        </div>
+                        <div>
+                            <img check-image style="width: 35px; height: 35px; border-radius: 50%" ng-src="https://sellyx-ecom.s3-us-west-1.amazonaws.com/{{item.entity.id}}.jpg?AWSAccessKeyId=AKIAIZYV5W77V235JRWQ" alt="" />
+                            <span ng-click="viewUser(item.entity.id)" class="clickable text-primary" style="padding-left: 8px;"><b>{{item.entity.name}}</b><span>
+                        </div>
+                    </div>
+                    <div style="border-top: 1px solid #DDD; padding: 5px; background: rgb(33, 132, 218);">
+                        <span style="color: white"><i class="fa fa-location-arrow"></i> {{item.distance.converted}} - {{item.location.city? item.location.city +','+ item.location.region.code : item.location.formatted}}</span>
+                    </div>
+            </div>
+        </div> -->
+<div ng-if="loadMore" style="text-align: center; margin-top: 35px" class="col-xs-12">
+     <button style="height: 50px; font-size: 20px; font-weight: bold;" type="submit" ng-click="load('load', $event)" class="btn btn-primary">Load more <i class="fa fa-refresh"></i></button>
+</div>
+</div>
+    </uib-tab>
+    <uib-tab select="showRooms()">
+     <uib-tab-heading class="mobile-tabs" style="font-size: 18px">
+            <i class="fa fa-video-camera"></i> Live Listings
+        </uib-tab-heading>
+            <div class="panel p-20 col-md-9 m-t-30" style="border:1px solid #DDD">
+        <h5 class="m-t-0"></h5>
+        <div id="map" class="height-md" style="transform: translateZ(0px); background-color: rgb(229, 227, 223);"></div>
+    </div>
+    <div class="col-md-3" style="margin-bottom:40px;">
+     <div class="widget widget-chat m-t-30" style="border:1px solid #DDD;min-height:100vh; overflow-y: auto; overflow-x: hidden">
+        <div class="widget-header ">
+            <h4 class="text-danger">Available Products</h4>
+        </div>
+        <h5 ng-if="rooms.length==0" class="text-primary" style="padding-left: 20px">No product demos are live at the moment!</h5>
+        <div class="media clickable" ng-repeat="room in rooms" id="li{{room.id}}" ng-if="!room.lock" style="border: 1px solid #DDD; border-radius: 4px; padding: 10px" ng-click="viewRoom(room.room_key)">
+          <div class="media-left">
+              <img style="width: 75px" class="media-object" ng-src="https://sellyx-ecom.s3-us-west-1.amazonaws.com/s_{{room.product_image}}" alt="" ng-cloak>
+          </div>
+          <div class="media-body">
+            <h5 class="media-heading">{{room.product_name}}</h5>
+            <h6>${{room.product_price}}</h6>
+          </div>
+        </div>
+    </div>
+    </div>
+
+    </uib-tab>
+  </uib-tabset>
+<div class="col-xs-12 show-footer" style="padding: 0; display:none">
+    <div id="footer">
+        <ul class="footer-nav" style="list-style: none; padding-top: 10px">
+            <li><a ui-sref="app.howItWorks">How It Works</a></li>
+            <li><a ui-sref="app.about">About Us</a></li>
+            <li><a ui-sref="app.contact">Contact</a></li>
+            <li><a ui-sref="app.privacy">Privacy Policy</a></li>
+            <li><a ui-sref="app.terms">Terms and Conditions</a></li>
+        </ul>
+        <span class="center" style="position:absolute; bottom: 5px">&copy; 2016 <b>Sellyx, Inc.</b> All Rights Reserved</span>
+    </div>
+</div>
+
+<div class="modal fade" id="login_modal">
+     <div class="vertical-alignment-helper">
+        <div class="modal-dialog vertical-align-center">
+                <div class="modal-content">
+                    <div class="modal-body form-horizontal" style="text-align: center">
+                       <button style="font-size: 40px;" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                       <h3 style="margin-top: 40px">Please log in or register to use this feature.</h3>
+                       <div style="margin-top: 50px; margin-bottom: 30px"><a href="https://auth.sellyx.com/login?service=www&redirection="><button type="button" class="btn" style="width: 75%; font-size: 20px; padding: 10px; background: white; border-radius: 25px !important; border: 1px solid #2184DA; color: #2184DA">Login</button></a></div>
+                       <div style="margin-bottom: 50px"><a href="https://auth.sellyx.com/register?service=www&redirection="><button type="button" class="btn" style="width: 75%; font-size: 20px; padding: 10px; background: white; border-radius: 25px !important; border: 1px solid #17B6A4; color:#17B6A4">Register</button></a></div>
+                       <div style="margin-bottom: 50px"><h1 style="border-bottom: 3px solid #DDD"></h1></div>
+                       <p style="color: rgb(156, 156, 156);">By signing up or using Sellyx services you agree to the Sellyx</p>
+                       <p> <a href="/#/terms-conditions" style="color: #2184DA">Terms & Conditions</a> and <a ui-sref="app.privacy" style="color: #2184DA">Privacy Policy</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,274 @@
+<div class="modal fade" id="filter_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <button style="color: white; opacity: 1" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 style="text-align: center; color: white" class="modal-title"><i class="fa fa-sliders"></i> Filter</h3>
+            </div>
+            <div class="modal-body  form-horizontal">
+                <div class="form-group" id="type" ng-hide="searchDropdown == 'Housing' || searchDropdown == 'Employment/Careers' || removeListingType">
+                    <label class="col-xs-12 col-sm-3 control-label s-d-red">Listing Type</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <select select class="form-control listing-type" ng-model="filter.type" ng-change="changeListingType(filter.type)" data-var="type">
+                            <option value="">All Types</option>
+                            <option value="1">For Sale</option>
+                            <option value="2">For Borrow</option>
+                            <option value="3">Service</option>
+                            <option value="4">For Rent (Housing)</option>
+                            <option value="5">For Sale (Housing)</option>
+<!--                             <option value="6">Employment/Careers (Full-Time)</option>
+                            <option value="7">Employment/Careers (Temporary/Paid Internships)</option>
+                            <option value="8">Employment/Careers (Volunteer/Unpaid Internships)</option> -->
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" id="type" ng-show="searchDropdown == 'Housing'">
+                    <label class="col-xs-12 col-sm-3 control-label s-d-red">For Sale/Rent</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <select select class="form-control listing-type" ng-model="filter.type" ng-change="changeListingType(filter.type)" data-var="type">
+                            <option value="4,5">For Sale and For Rent</option>
+                            <option value="4">For Rent (Housing)</option>
+                            <option value="5">For Sale (Housing)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" id="type" ng-show="removeListingType">
+                    <label class="col-xs-12 col-sm-3 control-label s-d-red">Purchase Type</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <select select class="form-control listing-type" ng-model="filter.type" ng-change="changeListingType(filter.type)" data-var="type">
+                            <option value="">For Sale and For Borrow</option>
+                            <option value="1">For Sale</option>
+                            <option value="2">For Borrow</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" id="type" ng-show="searchDropdown == 'Employment/Careers'">
+                    <label class="col-xs-12 col-sm-3 control-label s-d-red">Employment Type</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <select select class="form-control listing-type" ng-model="filter.type" ng-change="changeListingType(filter.type)" data-var="type">
+                            <option value="6,7,8">All Employment</option>
+                            <option value="6">Full Time</option>
+                            <option value="7">Temporary/Paid Internships</option>
+                            <option value="8">Volunteer/Unpaid Internships</option>
+                        </select>
+                    </div>
+                </div>
+                 <div class="form-group" id="categories" ng-hide="searchDropdown == 'Employment/Careers' || searchDropdown == 'Housing' || filter.type == 3 || filter.type == 4 || filter.type == 5 || filter.type == 6 || filter.type == 7 || filter.type == 8">
+                    <label class="col-xs-12 col-sm-3 control-label s-d-red">Categories</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <select select multiple="" class="form-control" style="padding-top:0px;" data-var="categories" ng-model="filter.categories">
+                            <option class="empty-option" disabled style="display: none"></option>
+                            <option value="01">Books</option>
+                            <option value="02">Movies/Music</option>
+                            <option value="03">Electronics</option>
+                            <option value="04">Clothing</option>
+                            <option value="05">Jewelry</option>
+                            <option value="06">Shoes/Accessories</option>
+                            <option value="07">Games/Toys</option>
+                            <option value="08">Home/Garden</option>
+                            <option value="09">Health</option>
+                            <option value="10">Beauty</option>
+                            <option value="11">Food/Beverages</option>
+                            <option value="12">Sports/Outdoors</option>
+                            <option value="13">Automotive</option>
+                            <option value="14">Industrial</option>
+                            <option value="15">Pets/Animals</option>
+                            <option value="16">Office/School</option>
+                            <option value="17">Travel</option>
+                            <option value="18">Tickets</option>
+                            <option value="19">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" id="conditions" ng-hide="searchDropdown == 'Employment/Careers' || searchDropdown == 'Housing' || filter.type == 3 || filter.type == 4 || filter.type == 5 || filter.type == 6 || filter.type == 7 || filter.type == 8">
+                    <label class="col-xs-12 col-sm-3 control-label s-d-red">Condition</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <select multiple="" select class="form-control" style="padding-top:0px;" ng-model="filter.conditions" data-var="conditions">
+                            <option class="empty-option" disabled style="display:none"></option>
+                            <option value="1">New</option>
+                            <option value="2">Used (Like New)</option>
+                            <option value="3">Used (Good Condition)</option>
+                            <option value="4">Used (Fair Condition)</option>
+                            <option value="5">Used (Wear/Tear Noticeable)</option>
+                            <option value="6">Refurbished</option>
+                            <option value="7">Returned</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" id="htype" ng-show="searchDropdown == 'Housing' || filter.type == 4 || filter.type == 5">
+                    <label class="col-xs-12 col-sm-3 control-label s-d-red">Type</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <select multiple="" select class="form-control" ng-model="filter.htype" data-var="htype">
+                                <option disabled style="display: none"></option>
+                                <option value="1">Single Family Home</option>
+                                <option value="2">Apartment (Listing a Single Unit)</option>
+                                <option value="3">Apartment (Listing Multiple Units)</option>
+                                <option value="4">Townhouse or Condo</option>
+                                <option value="5">Duplex or Fourplex</option>
+                                <option value="6">Loft</option>
+                                <option value="7">Commercial Space</option>
+                            </select>
+                    </div>
+                </div>
+                <div class="form-group" id="p_type" ng-hide="searchDropdown == 'Employment/Careers'">
+                    <label class="col-xs-12 col-sm-3 control-label s-d-red">Price Negotiable</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <select select class="form-control" style="padding-top:0px;" ng-model="filter.p_type">
+                            <option value="">No Preference</option>
+                            <option value="1">Fixed/Firm</option>
+                            <option value="2">Negotiable/OBO</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" id="rooms" ng-show="searchDropdown == 'Housing' || filter.type == 4 || filter.type == 5">
+                        <label class="col-xs-12 col-sm-3 control-label s-d-red">Rooms</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <select select multiple="" class="form-control" ng-model="filter.rooms" data-var="rooms">
+                                <option disabled style="display: none"></option>
+                                <option value="1">1 (Studio)</option>
+                                <option value="2">1</option>
+                                <option value="3">2</option>
+                                <option value="4">3</option>
+                                <option value="5">4</option>
+                                <option value="6">5</option>
+                                <option value="7">5+</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" id="bathrooms_f" ng-show="searchDropdown == 'Housing' || filter.type == 4 || filter.type == 5">
+                        <label class="col-xs-12 col-sm-3 control-label s-d-red">Full Bathrooms</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <select select multiple="" class="form-control" ng-model="filter.bathrooms_f" data-var="bathrooms_f">
+                                <option disabled style="display: none"></option>
+                                <option value="1">0</option>
+                                <option value="2">1</option>
+                                <option value="3">2</option>
+                                <option value="4">3</option>
+                                <option value="5">4</option>
+                                <option value="6">5</option>
+                                <option value="7">5+</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" id="bathrooms_h" ng-show="searchDropdown == 'Housing' || filter.type == 4 || filter.type == 5">
+                        <label class="col-xs-12 col-sm-3 control-label s-d-red">Half Bathrooms</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <select select multiple="" class="form-control" ng-model="filter.bathrooms_h" data-var="bathrooms_h">
+                                <option disabled style="display: none"></option>
+                                <option value="1">0</option>
+                                <option value="2">1</option>
+                                <option value="3">2</option>
+                                <option value="4">3</option>
+                                <option value="5">4</option>
+                                <option value="6">5</option>
+                                <option value="7">5+</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" id="pets" ng-show="searchDropdown == 'Housing' || filter.type == 4 || filter.type == 5">
+                        <label class="col-xs-12 col-sm-3 control-label s-d-red">Pets</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <select select class="form-control" ng-model="filter.pets" data-var="pets">
+                                <option value="">No Preference</option>
+                                <option value="1">Not Allowed</option>
+                                <option value="2">Allowed</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" id="company" ng-show="searchDropdown == 'Employment/Careers'">
+                        <label class="col-xs-12 col-sm-3 control-label s-d-red">Company</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input class="form-control" data-var="company" ng-model="filter.company" placeholder="Name of the hiring company" type="text"/>
+                        </div>
+                    </div>
+                    <div class="form-group" id="jtitle" ng-show="filter.type == 6 || filter.type == 7 || filter.type == 8 || searchDropdown == 'Employment/Careers'">
+                        <label class="col-xs-12 col-sm-3 control-label s-d-red">Job Title</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input class="form-control" data-var="jtitle" ng-model="filter.jtitle" placeholder="Describe the job title; this is different from the listing title" type="text"/>
+                        </div>
+                    </div>
+                    <div class="form-group" id="experience" ng-show="searchDropdown == 'Employment/Careers'">
+                        <label class=" col-xs-12 col-sm-3 control-label s-d-red">Experience</label>
+                        <div class="col-xs-12 col-sm-8">
+                             <select select multiple="" class="form-control " data-var="experience" ng-model="filter.experience">
+                                <option disabled style="display: none"></option>
+                                <option value="1">No Experience Necessary</option>
+                                <option value="2">1 year</option>
+                                <option value="3">1 year+</option>
+                                <option value="4">2 years+</option>
+                                <option value="5">3 years+</option>
+                                <option value="6">4 years+</option>
+                                <option value="7">5 years+</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" id="education" ng-show="searchDropdown == 'Employment/Careers'">
+                        <label class=" col-xs-12 col-sm-3 control-label s-d-red">Education</label>
+                        <div class="col-xs-12 col-sm-8">
+                             <select select multiple="" class="form-control nr" data-var="education" ng-model="filter.education">
+                                <option disabled style="display: none"></option>
+                                <option value="1">No Educational Requirements</option>
+                                <option value="2">High School Diploma</option>
+                                <option value="3">Associates Degree</option>
+                                <option value="4">Bachelors Required (BA)+</option>
+                                <option value="5">Bachelors Required (BS)</option>
+                                <option value="6">Professional Degree (Law/Medicine)</option>
+                                <option value="7">Ph.D</option>
+                            </select>
+                        </div>
+                    </div>
+                <div class="form-group" id="minprice" ng-hide="filter.type == 8">
+                    <label class="col-xs-12 col-sm-3 control-label s-d-red">{{(filter.type== 6 || filter.type==7 || searchDropdown == 'Employment/Careers')? 'Min Salary': 'Min Price'}}</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-addon">{{currencySymbol}}</span>
+                            <input class="form-control" data-var="title" ng-model="filter.minprice" placeholder="Min" value="" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" id="maxprice" ng-hide="filter.type == 8">
+                    <label class="col-xs-12 col-sm-3 control-label s-d-red">{{(filter.type== 6 || filter.type==7 || searchDropdown == 'Employment/Careers')? 'Max Salary': 'Max Price'}}</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-addon">{{currencySymbol}}</span>
+                            <input class="form-control" data-var="title" ng-model="filter.maxprice" placeholder="Max" value="" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group no-salary" id="price_type" ng-show="searchDropdown == 'Employment/Careers'">
+                    <label class="col-xs-12 col-sm-3 control-label s-d-red">Price Type</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <select select class="form-control" data-var="price_type" ng-model="filter.price_type">
+                            <option value="">No preference</option>
+                            <option value="5">Hourly</option>
+                            <option value="6">Daily</option>
+                            <option value="7">Monthly</option>
+                            <option value="8">Yearly</option>
+                            <option value="9">Custom</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" id="entity_type">
+                    <label class="col-xs-12 col-sm-3 control-label s-d-red">Seller Type</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <select select class="form-control" data-var="price_type" ng-model="filter.entity_type">
+                            <option value="">All Types</option>
+                            <option value="t1">Private Sellers</option>
+                            <option value="t2">Businesses</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" id="distance">
+                    <label class="col-xs-12 col-sm-3 control-label s-d-red">Proximity</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input class="form-control" data-var="title" ng-model="filter.distance" placeholder="Distance" value="" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:;" class="btn width-100 btn-danger" ng-click="resetFilters()">Reset</a>
+                <a href="javascript:;" class="btn width-100 btn-primary" ng-click="load('go')">Apply</a>
+            </div>
+        </div>
+    </div>
+</div>
